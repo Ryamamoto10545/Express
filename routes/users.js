@@ -5,15 +5,25 @@ const router = express.Router()
 router.use(logger)
 
 router.get("/",(req,res) => {
-res.send("User list")
+    console.log(req.query.name)
+res.send("User List")
 })
 
 router.get("/new",(req,res) => {
-    res.send("User New Form")
+    res.render("users/new", {firstName:"Test"})
 })
 
 router.post("/",(req,res) => {
-        res.send("Create User")
+    const isvalid = true
+    if(isvalid){
+        users.push({firstName:req.body.firstName})
+        res.redirect(`/users/${users.length - 1}`)
+    }else{
+        console.log("Error")
+        res.render("users/new",{firstName: req.body.firstName})
+    }
+        console.log(req.body.firstName)
+        res.send("Hi")
 })
 
 router
@@ -36,7 +46,7 @@ router.param("id",(req,res,next,id) =>{
 })
 
 function logger(req,res,next){
-    console.log(req,originalUrl)
+    console.log(req.originalUrl)
     next()
 }
     module.exports = router
